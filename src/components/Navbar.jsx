@@ -2,6 +2,13 @@ import React from "react"
 import { graphql, Link, useStaticQuery } from "gatsby"
 
 const Navbar = () => {
+  /**
+   * Component Query / Static Query
+   * useStaticQuery can be used once inside a component
+   * useStaticQuery may throw an error if component name is not starting with capital letter
+   * you can use query variables with page queries only!
+   **/
+
   const data = useStaticQuery(graphql`
     {
       site {
@@ -11,8 +18,6 @@ const Navbar = () => {
       }
     }
   `)
-  // useStaticQuery can be used once inside a component
-  // useStaticQuery may throw an error if component name is not starting with capital letter
 
   const { title } = data.site.siteMetadata
 

@@ -7,6 +7,7 @@
 module.exports = {
   /* Your site config here */
   plugins: [
+    'gatsby-transformer-remark',
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -14,18 +15,11 @@ module.exports = {
         path: `${__dirname}/src/projects/`,
       },
     },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `images`,
-        path: `${__dirname}/src/images/`,
-      },
-    },
   ],
   siteMetadata: {
-    title: "Gatsby portfol!o",
+    title: "Gatsby Portfolio",
     description: "web dev portfolio",
-    copyright: "This website is copyright 2022",
+    copyright: "This website is copyright bla bla bla 2022",
     contact: "mazenadel19@gmail.com",
   },
 }
