@@ -1,4 +1,5 @@
-import { Link } from "gatsby"
+import { graphql, Link } from "gatsby"
+import { GatsbyImage, getImage } from "gatsby-plugin-image"
 import React from "react"
 import Layout from "../components/Layout"
 //styles
@@ -7,7 +8,7 @@ import { btn, header } from "../styles/home.module.css"
 
 export default function Home({ data }) {
 
-// const { description, title } = data.site.siteMetadata
+  const image = getImage(data.file.childImageSharp.gatsbyImageData)
 
   return (
     <Layout>
@@ -20,20 +21,24 @@ export default function Home({ data }) {
             Projects
           </Link>
         </div>
-        <img src="/banner.png" alt="site banner" style={{ maxWidth: "100%" }} />
+        <GatsbyImage image={image} alt="Banner" />
       </section>
     </Layout>
   )
 }
 
 /////// Page Query ///////
-// export const query = graphql`
-//   {
-//     site {
-//       siteMetadata {
-//         description
-//         title
-//       }
-//     }
-//   }
-// `
+export const query = graphql`
+  query Banner {
+    file(relativePath: { eq: "banner.png" }) {
+      childImageSharp {
+        gatsbyImageData(
+          layout: FULL_WIDTH
+          placeholder: BLURRED
+          formats: [AUTO, WEBP]
+        )
+      }
+    }
+  }
+`
+

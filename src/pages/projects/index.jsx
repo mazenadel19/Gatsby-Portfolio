@@ -1,16 +1,14 @@
-import { graphql, Link } from 'gatsby'
+import { graphql, Link } from "gatsby"
+import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 import React from "react"
 import Layout from "../../components/Layout"
 //styles
 // @ts-ignore
-import { projects_style , portfolio } from "../../styles/portfolio.module.css"
+import { portfolio, projects_style } from "../../styles/portfolio.module.css"
 
 const index = ({ data }) => {
-
-
   const projects = data.projects.nodes
-  const {contact} = data.contact.siteMetadata
-
+  const { contact } = data.contact.siteMetadata
 
   return (
     <Layout>
@@ -19,15 +17,18 @@ const index = ({ data }) => {
         <h3>Projects & Websites I've Created</h3>
         <div className={projects_style}>
           {projects.map(project => {
-            const { title, stack, slug, date, featuredImg, thumb} = project.frontmatter
+            const { title, stack, slug, date, thumb } = project.frontmatter
 
             return (
               <Link key={project.id} to={`/projects/${slug}`}>
+                <GatsbyImage
+                  image={getImage(thumb.childImageSharp.gatsbyImageData)}
+                  alt="Banner"
+                />
+
                 <h3>{title}</h3>
                 <p>{stack}</p>
-                <p>
-                  {new Date(date).toDateString()}
-                </p>
+                <p>{new Date(date).toDateString()}</p>
               </Link>
             )
           })}
@@ -43,7 +44,9 @@ export default index
 //exports page query
 export const query = graphql`
   query ProjectsPage {
-   projects : allMarkdownRemark(sort: { fields: frontmatter___date, order: DESC }) {
+    projects: allMarkdownRemark(
+      sort: { fields: frontmatter___date, order: DESC }
+    ) {
       nodes {
         id
         frontmatter {
@@ -51,12 +54,19 @@ export const query = graphql`
           stack
           slug
           date
-          featuredImg
-          thumb
+          thumb {
+            childImageSharp {
+              gatsbyImageData(
+                layout: FULL_WIDTH
+                placeholder: BLURRED
+                formats: AUTO
+              )
+            }
+          }
         }
       }
     }
-   contact:  site {
+    contact: site {
       siteMetadata {
         contact
       }
